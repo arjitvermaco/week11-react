@@ -1,24 +1,36 @@
 import logo from './logo.svg';
 import './App.css';
+import CakeComponent from './components/CakeComponent';
+import {Routes,Route,useNavigate} from 'react-router-dom'
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import DashboardPage from './pages/DashboardPage'
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from 'react';
 
 function App() {
+
+  const user = useSelector(state => state.user)
+  console.log(user)
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(user.email){
+      navigate('/dashboard')
+    }else{
+      navigate('/login')
+    }
+  },[])
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <CakeComponent/>
+
+    <Routes>
+      <Route index Component={HomePage} />
+      <Route path='login' Component={LoginPage} />
+      <Route path='dashboard' Component={DashboardPage} />
+    </Routes>
   );
 }
 
